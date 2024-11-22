@@ -15,6 +15,6 @@ int main() {
 void printOutput() {
     std::string temp;
     std::cin >> temp;
-    std::cout << temp;
+    std::cout << temp << "\n";
     return;
 }
