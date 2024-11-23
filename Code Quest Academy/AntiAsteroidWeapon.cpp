@@ -31,10 +31,10 @@ void getOutput() {
 		points[i].distance = getDistance(points[i].x, points[i].y);
 	}
 	
-	std::sort(points, points+n, [](const Point &a, const Point &b) { return a.distance < b.distance; })
+	std::sort(points, points+n, [](const Point &a, const Point &b) { return a.distance < b.distance; });
 
 	for (int i = 0; i < n; i++) {
-		printf("%f %f\n", nums[i][0], nums[i][1]);
+		printf("%d %d\n", (int) points[i].x, (int) points[i].y);
 	}
 }
 
