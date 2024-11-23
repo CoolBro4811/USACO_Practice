@@ -1,44 +1,46 @@
 #include <iostream>
 #include <cstdio>
+#include <cctype>
+#include <algorithm>
+#include <string>
 
 void getOutput();
 
 int main() {
-    int n;
-    std::cin >> n;
+	int n;
+    	std::cin >> n;
 
-    std::string dummy;
-    getline(std::cin, dummy);
+    	std::string dummy;
+    	getline(std::cin, dummy);
 
-    for (int i = 0; i < n; i++) {
-        getOutput();
-    }
-    return 0;
+    	for (int i = 0; i < n; i++) {
+        	getOutput();
+    	}
+    	return 0;
 }
 
 void getOutput() {
-    std::string input;
-    getline(std::cin, input);
+    	std::string input;
+    	getline(std::cin, input);
 
-    std::string firstWord(input.substr(0, input.find("|")));
-    std::string secondWord(input.substr(input.find("|")+1, input.length()));
+	std::string firstWord(input.substr(0, input.find("|")));
+    	std::string secondWord(input.substr(input.find("|")+1, input.length()));
+	
+	if (firstWord == secondWord) {
+		printf("%s|%s = NOT AN ANAGRAM\n", firstWord.c_str(), secondWord.c_str());
+		return;
+	}
 
-    if (firstWord.compare(secondWord) == 0) {
-        printf("%s|%s %s%s", firstWord.c_str(), secondWord.c_str(), "= NOT AN ANAGRAM", "\n");
-        return;
-    }
+	std::string originalFirstWord(firstWord);
+	std::string originalSecondWord(secondWord);
 
-    bool foundYet = true;
-
-    for (int i = 0; i < firstWord.length(); i++) {
-        for (int j = 0; j < secondWord.length(); j++) {
-            if (!(foundYet) && firstWord[i] != secondWord[j]) {
-                foundYet = false;
-            }
-        }
-        if (foundYet == false) {
-            printf("%s|%s %s%s", firstWord.c_str(), secondWord.c_str(), "= NOT AN ANAGRAM", "\n");
-        }
-    }
-    printf("%s|%s %s%s", firstWord.c_str(), secondWord.c_str(), "= ANAGRAM", "\n");
+	std::sort(firstWord.begin(), firstWord.end());
+	std::sort(secondWord.begin(), secondWord.end());
+	
+	if (firstWord == secondWord) {
+		printf("%s|%s = ANAGRAM\n", originalFirstWord.c_str(), originalSecondWord.c_str());
+	}
+	else {
+		printf("%s|%s = NOT AN ANAGRAM\n", originalFirstWord.c_str(), originalSecondWord.c_str());
+	}
 }
