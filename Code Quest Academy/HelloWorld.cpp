@@ -8,6 +8,7 @@ int main() {
     std::cin >> n;
     std::string temp;
     getline(std::cin, temp);
+    std::cout << temp;
     for (int i = 0; i < n; i++) {
         printOutput();
     }
@@ -17,7 +18,7 @@ int main() {
 
 void printOutput() {
     std::string temp;
-    std::cin >> temp;
-    printf("%s", temp.c_str());
+    getline(std::cin, temp);
+    printf("%s\n", temp.c_str());
     return;
 }

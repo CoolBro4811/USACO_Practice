@@ -7,6 +7,8 @@ int getOutput();
 int main() {
     int n;
     scanf("%d", &n);
+    std::string dummy;
+    std::getline(std::cin, dummy);
 
     for (int i = 0; i < n; i++) {
         printf("%d%s", getOutput(), "\n");
@@ -19,14 +21,14 @@ int getOutput() {
 
     std::string input;
     std::getline(std::cin, input);
-    std::cout << input;
 
-    int count;
+    int count = 0;
 
     for (char i : input) {
         for (char vowel : vowels) {
             if (i == vowel) {
                 count++;
+                continue;
             }
         }
     }
