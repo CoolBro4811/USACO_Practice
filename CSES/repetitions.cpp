@@ -1,27 +1,25 @@
 #include <iostream>
 #include <string>
+#include <cstdio>
 
 int main() {
-    int n = 0;
+    	int n = 1;
 
-    std::string word;
+    	std::string word;
 
-    std::cin >> word;
+    	getline(std::cin, word);
+    	int max_n = 1;    
+	for (int i = 1; i < word.length(); i++) {
+		if (word[i-1] == word[i]) {
+			n++;
+        	}
+		else {
+			max_n = std::max(n, max_n);
+			n = 1;
+		}
+    	}
 
-    int max_n = word.length() > 0 ? 1 : 0;
-
-    std::string firstChar = std::to_string(word[0]);
-
-    for (int i = 1; i < word.length(); i++) {
-        
-        if (firstChar.compare(std::to_string(word[i])) == 0) {
-            n++;
-        }
-        else { max_n = std::max(n, max_n); n = 1; }
-        std::cout << max_n;
-        firstChar = std::string() + word[i];
-        std::cout << firstChar;
-    }
-    std::cout << max_n;
-    return 0;
+	max_n = std::max(n, max_n);
+	printf("%d", max_n);
+    	return 0;
 }
