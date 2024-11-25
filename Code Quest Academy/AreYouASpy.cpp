@@ -26,9 +26,11 @@ std::string removePunctuation(const std::string &result) {
 }
 
 std::string trim(const std::string &str) {
+	// std::cout << str;
 	size_t start = str.find_first_not_of(" 1234567890\t\n\r");
     	size_t end = str.find_last_not_of(" 1234567890\t\n\r");
     	return (start == std::string::npos) ? "" : str.substr(start, end - start + 1);
+	// std::cout << str;
 }
 
 void getOutput() {
@@ -40,7 +42,7 @@ void getOutput() {
 	std::string firstSentence { input.substr(0, input.find("|")) };
 	std::string secondSentence { input.substr(input.find("|")+1) };
 
-	std::cout << firstSentence << secondSentence << "\n";
+	// std::cout << firstSentence << secondSentence << "\n";
 
 	firstSentence = trim(firstSentence);
 	secondSentence = trim(secondSentence);
@@ -62,9 +64,9 @@ void getOutput() {
         	return firstSet.count(c);
     	});
 
-	std::cout << firstSentence << secondSentence << "\n";
+	// std::cout << firstSentence << secondSentence << "\n";
 	
-	std::cout << firstSentence << secondSentence << "\n";
+	// std::cout << firstSentence << secondSentence << "\n";
 
 	if (isValid) {
 		std::cout << "That's my secret contact!" << "\n";
