@@ -75,6 +75,6 @@ int getHammingDistance(const std::string &str1, const std::string &str2) {
 	int l1 = str1.length();
 	int l2 = str2.length();
 
-       	count = l1 > l2 || l2 > l1 ? INT_MAX : count;
+       	count = l1 != l2 ? INT_MAX : count;
 	return count;
 }
