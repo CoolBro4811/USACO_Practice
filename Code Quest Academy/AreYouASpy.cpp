@@ -1,20 +1,23 @@
-#include <iostream>
-#include <cstdio>
-#include <algorithm>
 #include <string>
+#include <bits/stdc++.h>
 
 std::string removePunctuation(const std::string &result);
 void getOutput(); 
 
 int main() {
+	std::ios_base::sync_with_stdio(false);
+	std::cin.tie(NULL);
+
 	int n;
-	scanf("%d", &n);
+	std::cin >> n;
+	std::cin.ignore();
 
 	for (int i = 0; i < n; i++) {
 		getOutput();
 	}
 	return 0;
 }
+
 std::string removePunctuation(const std::string &result) {
 	std::string input = result;
 	input.erase(std::remove_if(input.begin(), input.end(), [](unsigned char c) {return std::ispunct(c); }), input.end());
@@ -24,24 +27,27 @@ std::string removePunctuation(const std::string &result) {
 void getOutput() {
 	std::string input;
 	getline(std::cin, input);
-	getline(std::cin, input);
-	
-	input = removePunctuation(input);
 
-	std::string firstSentence = input.substr(0, input.find("|"));
-	std::string secondSentence = input.substr(input.find("|")+1);
+	std::string firstSentence { input.substr(0, input.find("|")) };
+	std::string secondSentence { input.substr(input.find("|")+1) };
 
-	firstSentence.erase(std::remove_if(firstSentence.begin(), firstSentence.end(), [&secondSentence](char c) {
-        		return secondSentence.find(c) != std::string::npos;
-    		}), firstSentence.end());
+	firstSentence = removePunctuation(firstSentence);
+	secondSentence = removePunctuation(secondSentence);
 
-	// length == 0, not spy
-	
-	if (firstSentence.length() == 0) {
-		std::cout << "That's my secret contact!";
+	bool containsLetter { false };
+	for (int i = 0; i < firstSentence.length(); i++) {
+		for (int j = 0; j < secondSentence.length(); j++) {
+			if (firstSentence[i] == secondSentence[j]) {
+				containsLetter = true; 
+				break;
+			}
+		}
+		if (!containsLetter) {
+			std::cout << "You're not a secret agent!";
+			return;
+		}
+		containsLetter = false;
 	}
-	else {
-		std::cout << "You're not a secret agent!";
-		
-	}
+	
+	std::cout << "That's my secret contact!";
 }
