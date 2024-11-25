@@ -51,10 +51,10 @@ void getOutput() {
 				minHammingDistance = distance;
 				bestMatch = correctWords[j];
 			}
-			std::cout << "Comparing " << correctWords[j] << " with " << misspelledWords[i] 
-          			<< ": Distance = " << distance << "\n";
-			std::cout << "Current best match: " << bestMatch << " with distance " 
-          			<< minHammingDistance << "\n";
+			// std::cout << "Comparing " << correctWords[j] << " with " << misspelledWords[i] 
+          		// 	<< ": Distance = " << distance << "\n";
+			// std::cout << "Current best match: " << bestMatch << " with distance " 
+          		// 	<< minHammingDistance << "\n";
 		}
 		std::cout << bestMatch << "\n";
 		minHammingDistance = INT_MAX;
@@ -75,6 +75,6 @@ int getHammingDistance(const std::string &str1, const std::string &str2) {
 	int l1 = str1.length();
 	int l2 = str2.length();
 
-       	count += l1 > l2 ? l1 - l2 : l2 - l1;
+       	count = l1 > l2 || l2 > l1 ? INT_MAX : count;
 	return count;
 }
