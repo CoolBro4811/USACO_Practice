@@ -20,6 +20,18 @@ int main() {
 }
 
 void getOutput() {
+	int small, large, length;
+	cin >> small >> large >> length;
 
+	if (length == 0) {
+    		cout << "true\n";
+    		return;
+	}
+
+	int large_used = min(length/5, large);
+
+	length -= large_used*5;
+
+	cout << (length <= small ? "true\n" : "false\n");
 }
 
