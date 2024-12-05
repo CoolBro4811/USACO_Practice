@@ -27,7 +27,7 @@ void getOutput() {
 
 	int time = round(x/y);
 
-	int days = time / 86400;
+	int days = time / 86400;//24*60^2
 	time -= days*86400;
 
 	int hours = floor(time/3600);
