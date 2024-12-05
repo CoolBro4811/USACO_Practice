@@ -26,7 +26,6 @@ void getOutput() {
 	y = y/3600.0;
 
 	int time = round(x/y);
-	// seconds
 
 	int days = time / 86400;
 	time -= days*86400;
