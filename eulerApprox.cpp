@@ -14,21 +14,21 @@ int main() {
 
 void getOutput() {
     int iter;
-    double ix, iy, dx, x, y;
-    cin >> iter >> ix >> iy >> dx >> x >> y;
+    double ix, iy, dx, x, xp, y, yp;
+    cin >> iter >> ix >> iy >> dx >> x >> xp >> y >> yp;
 
     int i = 0;
-    double dy = ix*x + iy*y;
+    double dy = ix*pow(x, xp) + iy*pow(y, yp);
     double prev = iy;
     double curr = prev;
 
     while (i < iter) {
         cout << dy << " << y'(" << (i*dx) << ", " << (prev) << ")\n";
         
-        curr = dy*dx + prev;
-        cout << curr << " << " << dy << "(" << dx << ")" << " + " << prev << "\n";
+        curr = dy*pow(dx, xp) + prev;
+        cout << curr << " << " << dy << "(" << dx << ")^" << xp << " + " << prev << "\n";
         
-        dy = x*(i+1)*dx + y*curr;
+        dy = x*pow((i+1)*dx, xp) + y*pow(curr, yp);
         prev = curr;
         i++;
     }
