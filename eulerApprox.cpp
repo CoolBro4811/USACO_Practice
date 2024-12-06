@@ -20,14 +20,15 @@ void getOutput() {
     int i = 0;
     double dy = ix*x + iy*y;
     double prev = iy;
-    double curr = 0;
+    double curr = prev;
 
     while (i < iter) {
         cout << dy << " << y'(" << (i*dx) << ", " << (prev) << ")\n";
+        
         curr = dy*dx + prev;
-        dy = x*(i+1)*dx + y*curr;
-
         cout << curr << " << " << dy << "(" << dx << ")" << " + " << prev << "\n";
+        
+        dy = x*(i+1)*dx + y*curr;
         prev = curr;
         i++;
     }
