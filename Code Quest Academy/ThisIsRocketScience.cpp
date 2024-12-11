@@ -34,7 +34,9 @@ void getOutput(int cubes, int xi, int yi) {
 		// t + sqrt(t^2 + 2*dx) /	
 		const double a = 1.0;
 
-		cout << (time + sqrt(pow(time, 2) + 2*dx)) << "\n";
+		cout << ((2*time + sqrt(pow(time, 2) - 2*dy) + sqrt(pow(time, 2) - 2*dx))*2) << "\n";
+		xi = xf;
+		yi = yf;
 	}
 }
 
