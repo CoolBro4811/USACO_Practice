@@ -30,8 +30,11 @@ void getOutput(int cubes, int xi, int yi) {
 		double dx = (xf-xi)/2.0;
 		double dy = (yf-yi)/2.0;
 
+		// -0.5t^2 + ti*t - dx
+		// t + sqrt(t^2 + 2*dx) /	
 		const double a = 1.0;
 
+		cout << (time + sqrt(pow(time, 2) + 2*dx)) << "\n";
 	}
 }
 
