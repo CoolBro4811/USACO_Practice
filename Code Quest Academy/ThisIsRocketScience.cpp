@@ -29,8 +29,8 @@ void getOutput(int cubes, int xi, int yi) {
 		double time;
 		cin >> xf >> yf >> time;
 
-		double dx = (xf-xi)/2;
-		double dy = (yf-yi)/2;
+		double dx = abs(xf-xi)/2;
+		double dy = abs(yf-yi)/2;
 		time /= 2.0;
 
 		// -0.5t^2 + ti*t - dx
@@ -47,6 +47,6 @@ void getOutput(int cubes, int xi, int yi) {
 		xi = xf;
 		yi = yf;
 	}
-	cout << (burnX + burnY) << "\n";
+	cout << fixed << setprecision(2) << (burnX + burnY) << "\n";
 }
 
