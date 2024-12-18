@@ -28,9 +28,9 @@ void getOutput() {
 }
 
 string formatNumber(double num) {
-	num = fmod((num+180), 360);
-	num = num > 0 ? num : 360 + num;
-	num = num == 360 ? 0 : num;
+	num = fmod((num+180.0), 360.0);
+	num = num > 0.0 ? num : -1*num;
+	num = num == 360.0 ? 0.0 : num;
 
     	ostringstream oss;
     	oss << fixed << setprecision(2) << setfill('0') << setw(6) << num;
