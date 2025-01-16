@@ -37,6 +37,9 @@ void getOutput() {
 		temp = temp.substr(index+1, temp.length()-1-index);
 	}
 
+	sort(lastDonors.begin(), lastDonors.end(), [](std::string a, std::string b) {return a<b;});
+	sort(thisDonors.begin(), thisDonors.end(), [](std::string a, std::string b) {return a<b;});
+
 	string both = "";
 	string onlylast = "";
 	string onlythis = "";
