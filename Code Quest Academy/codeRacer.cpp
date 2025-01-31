@@ -61,6 +61,7 @@ void getOutput() {
 	}
 
 	char *map;
+	addString(map, '-', w);
 
 	cout << map;
 	return;
