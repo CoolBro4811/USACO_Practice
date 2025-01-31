@@ -18,7 +18,11 @@ int main() {
 }
 
 void printPair(pair<double, double> &a) {
-	cout << fixed << setprecision(2) << round(a.first*100)/100 << "," << round(a.second*100)/100;
+	
+	if (abs(a.first) < 1e-9) a.first = 0.00;
+	if (abs(a.second) < 1e-9) a.second = 0.00;
+
+	cout << fixed << setprecision(2) << a.first << "," << a.second;
 	return;
 }
 
@@ -39,7 +43,7 @@ void getOutput() {
 
 	for (int i = 0; i < points.size(); i++) {
 		printPair(points[i]);
-		if (i < points.size()-1) cout << "=";
+		if (i < points.size()-1) cout << " ";
 		else cout << "\n";
 	}
 	return;
