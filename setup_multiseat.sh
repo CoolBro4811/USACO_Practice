@@ -1,62 +1,87 @@
 #!/bin/bash
 
-echo "Starting Multi-Seat Xephyr Setup..."
+echo "Cleaning up any old Xephyr instances and lock files..."
+sudo pkill Xephyr
+sudo rm -f /tmp/.X*-lock
 
-echo "Installing required packages..."
-sudo pacman -S --noconfirm --needed xorg-server-xephyr xorg-xinput i3
-
-echo "Detecting input devices..."
-KEYBOARDS=($(xinput list --name-only | grep -i "keyboard"))
-MICE=($(xinput list --name-only | grep -i "mouse\|touchpad"))
-
-if [ ${#KEYBOARDS[@]} -lt 3 ] || [ ${#MICE[@]} -lt 3 ]; then
-    echo "Error: Not enough keyboards or mice connected. You need at least 3 of each."
-    exit 1
+if [ "$(echo $XDG_SESSION_TYPE)" != "x11" ]; then
+  echo "Error: This script requires an X11 session."
+  exit 1
 fi
 
-KEYBOARD1="${KEYBOARDS[0]}"
-MOUSE1="${MICE[0]}"
+echo "Installing required packages..."
+sudo pacman -S --needed xorg-server xorg-utils xinput xorg-xinit
 
-KEYBOARD2="${KEYBOARDS[1]}"
-MOUSE2="${MICE[1]}"
+echo "Setting up virtual X servers..."
 
-KEYBOARD3="${KEYBOARDS[2]}"
-MOUSE3="${MICE[2]}"
+if ! ps aux | grep -q "Xephyr :1"; then
+  Xephyr :1 -screen 1024x768 -ac &
+  XEPHYR1_PID=$!
+else
+  echo "Display :1 is already in use, skipping Xephyr setup."
+fi
 
-echo "Assigned devices:"
-echo "User 1 -> Keyboard: $KEYBOARD1, Mouse: $MOUSE1"
-echo "User 2 -> Keyboard: $KEYBOARD2, Mouse: $MOUSE2"
-echo "User 3 -> Keyboard: $KEYBOARD3, Mouse: $MOUSE3"
+if ! ps aux | grep -q "Xephyr :2"; then
+  Xephyr :2 -screen 1024x768 -ac &
+  XEPHYR2_PID=$!
+else
+  echo "Display :2 is already in use, skipping Xephyr setup."
+fi
 
-# Start Xephyr sessions
-echo "Launching Xephyr sessions..."
+sleep 2
 
-Xephyr :1 -ac -screen 960x1080 &  
-DISPLAY=:1 startx /usr/bin/xterm -- :1 vt1 &
+echo "Detecting input devices..."
+DEVICES=($(xinput list --name-only | grep -i 'keyboard\|mouse'))
 
-Xephyr :2 -ac -screen 960x1080 &  
-DISPLAY=:2 startx /usr/bin/xterm -- :2 vt2 &
-
-Xephyr :3 -ac -screen 960x1080 &  
-DISPLAY=:3 startx /usr/bin/xterm -- :3 vt3 &
-
-sleep 5  # sometimes slow, give it time
+if [ ${#DEVICES[@]} -eq 0 ]; then
+  echo "No input devices detected. Exiting."
+  exit 1
+fi
 
 echo "Assigning input devices..."
+USER1_KEYBOARD=""
+USER2_KEYBOARD=""
+USER1_MOUSE=""
+USER2_MOUSE=""
 
-xinput --set-int-prop "$KEYBOARD1" "Device Enabled" 8 1
-xinput --set-int-prop "$MOUSE1" "Device Enabled" 8 1
+for DEVICE in "${DEVICES[@]}"; do
+    if [[ $DEVICE =~ "keyboard" ]]; then
+        USER1_KEYBOARD=$DEVICE
+    elif [[ $DEVICE =~ "mouse" && -z $USER1_MOUSE ]]; then
+        USER1_MOUSE=$DEVICE
+    fi
+done
 
-xinput --set-int-prop "$KEYBOARD2" "Device Enabled" 8 1
-xinput --set-int-prop "$MOUSE2" "Device Enabled" 8 1
+for DEVICE in "${DEVICES[@]}"; do
+    if [[ $DEVICE =~ "keyboard" && $DEVICE != $USER1_KEYBOARD ]]; then
+        USER2_KEYBOARD=$DEVICE
+    elif [[ $DEVICE =~ "mouse" && $DEVICE != $USER1_MOUSE ]]; then
+        USER2_MOUSE=$DEVICE
+    fi
+done
 
-xinput --set-int-prop "$KEYBOARD3" "Device Enabled" 8 1
-xinput --set-int-prop "$MOUSE3" "Device Enabled" 8 1
+echo "Associating input devices with virtual displays..."
+xinput --map-to-output "$USER1_KEYBOARD" :1 || exit 1
+xinput --map-to-output "$USER1_MOUSE" :1 || exit 1
+xinput --map-to-output "$USER2_KEYBOARD" :2 || exit 1
+xinput --map-to-output "$USER2_MOUSE" :2 || exit 1
 
-echo "Starting i3 window manager..."
+echo "Setting up user sessions..."
 
-DISPLAY=:1 i3 &
-DISPLAY=:2 i3 &
-DISPLAY=:3 i3 &
+if ! ps aux | grep -q "X :1"; then
+  xinit -- :1 &
+else
+  echo "Session for :1 is already running."
+fi
 
-echo "Setup complete! Users can now work independently on the same machine."
+if ! ps aux | grep -q "X :2"; then
+  xinit -- :2 &
+else
+  echo "Session for :2 is already running."
+fi
+
+wait $XEPHYR1_PID
+wait $XEPHYR2_PID
+
+echo "Multi-seat setup complete!"
+
