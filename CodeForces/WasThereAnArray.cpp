@@ -25,36 +25,38 @@ void getOutput() {
     b[i] = val;
   }
 
-  vector<int> a(length, 1);
+  vector<int> a(length, 0);
 
-  for (int i = 1; i < length-1; i++) {
-    if (b[i-1] == 1) {
-      a[i] = a[i-1];
-      a[i+1] = a[i-1];
-      i++;
+  int k = 1;
+
+  for (int i = 0; i < length-2; i++) {
+    if (b[i] == 1) {
+      a[i] = k;
+      a[i+2] = k;
+      a[i+1] = k;
     }
     else {
-      a[i] = (a[i-1] == 1) ? 2 : 1;
+      k++;
     }
   }
 
-  cout << "\n ";
-  for (auto &c : b) cout << c;
-  cout << " \n";
+  // cout << "\n ";
+  // for (auto &c : b) cout << c;
+  // cout << " \n";
 
-  for (auto &c : a) cout << c;
-  cout << "\n";
+  // for (auto &c : a) cout << c;
+  // cout << "\n";
 
 // verify
 
-  for (int i = 1; i < length-1; i++) {
-    bool actual = (a[i] == a[i-1] && a[i] == a[i+1]);
-    if (b[i-1] == 1 && !actual || b[i-1] == 0 && actual) {
-      cout << "NO\n";
-      return;
+  for (int i = 1; i < length-2; i++) {
+    if (b[i] == 1) {
+      if (a[i] != a[i+1] || a[i] != a[i+2]) {
+        cout << "NO\n";
+        return;
+      }
     }
   }
-
   cout << "YES\n";
   return;
 }
