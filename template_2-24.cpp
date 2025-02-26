@@ -3,6 +3,8 @@
  */
 
 // #define FILE_IO // uncomment this to enable file io
+// #define LOCAL // uncomment to enable local debugging
+
 
 #include <bits/stdc++.h>
 using namespace std;
