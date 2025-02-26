@@ -1,8 +1,9 @@
-
-//
 /** TEMPLATE 2/24
  * Enhanced C++ Template
  */
+
+// #define FILE_IO // uncomment this to enable file io
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -34,10 +35,9 @@ using vpi = vector<pi>;
 
 // CONSTANTS
 constexpr bool MULTI_TEST = false;
-const string FILE_IO = "";
-constexpr ll INF = 1e18; // Use as a large value for comparisons
 constexpr int MOD = 1e9 + 7; // Common modulus for modular arithmetic
 constexpr double EPS = 1e-9; // Epsilon for floating point comparisons
+constexpr ll INF = 1e18; // Use as a large value for comparisons
 
 // UTILITY FUNCTIONS
 template <typename T> void read(T& x) { cin >> x; } // Read single input
@@ -59,13 +59,20 @@ ll mod_pow(ll base, ll exp, ll m = MOD) { // Modular exponentiation
     return res; 
 }
 
+// MODULAR INVERSE (Fermat's Little Theorem, if MOD is prime)
+ll mod_inv(ll a, ll m = MOD) {
+    return mod_pow(a, m - 2, m); // Fermat's Little Theorem for modular inverse
+}
+
 // I/O SETUP
 void setupIO() {
     cin.tie(0)->sync_with_stdio(0); // Fast I/O
+    #ifdef FILE_IO
     if (!FILE_IO.empty()) {
         freopen((FILE_IO + ".in").c_str(), "r", stdin);
         freopen((FILE_IO + ".out").c_str(), "w", stdout);
     }
+    #endif
 }
 
 // SOLUTION FUNCTION
@@ -85,4 +92,3 @@ int main() {
         solve(); // Solve single test case
     }
 }
-
