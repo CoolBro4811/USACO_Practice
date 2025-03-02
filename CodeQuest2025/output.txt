@@ -1,0 +1,5 @@
+Test failed: '3 + 4 * 2' -> Expected '11', Got 'Error: Bad expr
+Error: Bad expr
+Error: Bad expr'
+Test failed: '2^3^2' -> Expected '512', Got 'Error: Bad expr
+Error: Bad expr'
