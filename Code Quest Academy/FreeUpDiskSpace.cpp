@@ -36,7 +36,7 @@ using vpi = vector<pi>;
 #endif
 
 // CONSTANTS
-constexpr bool MULTI_TEST = true;
+constexpr bool MULTI_TEST = false;
 constexpr int MOD = 1e9 + 7; // Common modulus for modular arithmetic
 constexpr double EPS = 1e-9; // Epsilon for floating point comparisons
 constexpr ll INF = 1e18; // Use as a large value for comparisons
@@ -77,23 +77,18 @@ void setupIO() {
     #endif
 }
 
+struct file_t {
+  int[3] date; // cent, month, day 
+  int[2] time; // hour, minute (24 hr)
+  int size;
+  int name;
+}
+
 // SOLUTION FUNCTION
 void solve() {
-    double v, x;
-    scanf("%lf:%lf", &v, &x);
+    int files; float drive; read(files); read(drive);
 
-    double time = x/v;
-
-    if (time <= 1) {
-        cout << "SWERVE";
-    }
-    else if (time <= 5) {
-        cout << "BRAKE";
-    }
-    else {
-        cout << "SAFE";
-    }
-    cout << "\n";
+    
 }
 
 int main() {

@@ -36,7 +36,7 @@ using vpi = vector<pi>;
 #endif
 
 // CONSTANTS
-constexpr bool MULTI_TEST = true;
+constexpr bool MULTI_TEST = false;
 constexpr int MOD = 1e9 + 7; // Common modulus for modular arithmetic
 constexpr double EPS = 1e-9; // Epsilon for floating point comparisons
 constexpr ll INF = 1e18; // Use as a large value for comparisons
@@ -79,21 +79,10 @@ void setupIO() {
 
 // SOLUTION FUNCTION
 void solve() {
-    double v, x;
-    scanf("%lf:%lf", &v, &x);
-
-    double time = x/v;
-
-    if (time <= 1) {
-        cout << "SWERVE";
-    }
-    else if (time <= 5) {
-        cout << "BRAKE";
-    }
-    else {
-        cout << "SAFE";
-    }
-    cout << "\n";
+    int n; read(n); // Read an integer
+    vi arr(n); read(arr); // Read an array
+    sort(all(arr)); // Sort the array in ascending order
+    print(arr); // Print the sorted array
 }
 
 int main() {

@@ -36,7 +36,7 @@ using vpi = vector<pi>;
 #endif
 
 // CONSTANTS
-constexpr bool MULTI_TEST = true;
+constexpr bool MULTI_TEST = false;
 constexpr int MOD = 1e9 + 7; // Common modulus for modular arithmetic
 constexpr double EPS = 1e-9; // Epsilon for floating point comparisons
 constexpr ll INF = 1e18; // Use as a large value for comparisons
@@ -69,31 +69,133 @@ ll mod_inv(ll a, ll m = MOD) {
 // I/O SETUP
 void setupIO() {
     cin.tie(0)->sync_with_stdio(0); // Fast I/O
-    #ifdef FILE_IO
-    if (!FILE_IO.empty()) {
-        freopen((FILE_IO + ".in").c_str(), "r", stdin);
-        freopen((FILE_IO + ".out").c_str(), "w", stdout);
-    }
-    #endif
+    // #ifdef FILE_IO
+    // if (!FILE_IO.empty()) {
+    //     freopen((FILE_IO + ".in").c_str(), "r", stdin);
+    //     freopen((FILE_IO + ".out").c_str(), "w", stdout);
+    // }
+    // #endif
+}
+
+bool checkChar(char &a) {
+  return isdigit(a) || a == '.';
+}
+
+
+void updateString(string &t, size_t i, string find_) {
+  size_t end_ = t.find(find_, i);
+  if (end_ == string::npos) return;
+  string temp_ = t.substr(i, end_ - i);
+  t = t.substr(0, i) + to_string(solve(temp_)) + t.substr(end_);
+}
+
+void updateString(string &t, size_t i, size_t end_) {
+  string temp_ = t.substr(i, end_ - i);
+  int _ = temp_.size();
+  t = t.substr(0, i) + to_string(solve(temp_)) + t.substr(i + _);
+}
+
+void updateString(string &t, size_t i, string &toadd) {
+  t = t.substr(0, i) + toadd + t.substr(i + toadd.size());
+}
+
+
+pair<string, size_t> findNextNum(string &t, size_t i_) {
+  string temp;
+  size_t _ = 0;
+  rep(i, i_, t.size()) {
+    if (checkChar(t[i])) { temp += t[i]; _++; }
+  }
+  return temp, _;
+}
+
+pair<string, size_t> findLastNum(string &t, size_t i_) {
+  string temp;
+  size_t _ = 0;
+  per(i, i_, t.size()) {
+    if (checkChar(t[i])) { temp += t[i]; _++; }
+    else _++;
+  }
+  return temp, _;
+}
+
+
+double solve(string &t) {
+  // find (), then ^, then */, then +-
+  size_t i = 0;
+
+  bool check = true;
+  each(x, t) if (!checkChar(x)) check = false;
+  if (check) return stod(t);
+
+  while((i = t.find("SQRT(")) != string::npos) {
+    updateString(t, i, ")");
+  }
+
+  while((i = t.find('(')) != string::npos) {
+    updateString(t, i, ")");
+  }
+
+  while((i = t.find('^')) != string::npos) {
+    auto [exp, _] = findNextNum(t, i);
+    auto [base, _] = findLastNum(t, i);
+    
+    string temp = to_string(pow(stod(base), stod(exp)));
+    updateString(t, i, temp);
+  }
+
+  while((i = t.find('*')) != string::npos) {
+    auto [a, _] = findNextNum(t, i);
+    auto [b, _] = findLastNum(t, i);
+
+    string temp = to_string(stod(a)*stod(b));
+    updateString(t, i, temp);
+  }
+
+  while((i = t.find('/')) != string::npos) {
+    auto [a, _] = findNextNum(t, i);
+    auto [b, _] = findLastNum(t, i);
+
+    string temp = to_string(stod(a)/stod(b));
+    updateString(t, i, temp);
+  }
+
+  while((i = t.find('+')) != string::npos) {
+    auto [a, _] = findNextNum(t, i);
+    auto [b, _] = findLastNum(t, i);
+
+    string temp = to_string(stod(a)+stod(b));
+    updateString(t, i, temp);
+  }
+
+  while((i = t.find('-')) != string::npos) {
+    auto [a, _] = findNextNum(t, i);
+    auto [b, _] = findLastNum(t, i);
+
+    string temp = to_string(stod(a)-stod(b));
+    updateString(t, i, temp);
+  }
+
+  return stod(t);
 }
 
 // SOLUTION FUNCTION
 void solve() {
-    double v, x;
-    scanf("%lf:%lf", &v, &x);
+  string eval;
+  getline(cin, eval);
 
-    double time = x/v;
+  double ans = stod(eval.substr(eval.find('=') + 1));
 
-    if (time <= 1) {
-        cout << "SWERVE";
-    }
-    else if (time <= 5) {
-        cout << "BRAKE";
-    }
-    else {
-        cout << "SAFE";
-    }
-    cout << "\n";
+  eval = eval.substr(0, eval.find('='));
+  
+  double eval_ = round(solve(eval));
+  
+  if (eval_ == ans) {
+    cout << "Correct\n";
+  }
+  else {
+    cout << eval_ << "\n";
+  }
 }
 
 int main() {

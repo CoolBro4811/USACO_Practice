@@ -5,7 +5,6 @@
 // #define FILE_IO // uncomment this to enable file io
 // #define LOCAL // uncomment to enable local debugging
 
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -36,7 +35,7 @@ using vpi = vector<pi>;
 #endif
 
 // CONSTANTS
-constexpr bool MULTI_TEST = true;
+constexpr bool MULTI_TEST = false;
 constexpr int MOD = 1e9 + 7; // Common modulus for modular arithmetic
 constexpr double EPS = 1e-9; // Epsilon for floating point comparisons
 constexpr ll INF = 1e18; // Use as a large value for comparisons
@@ -79,21 +78,15 @@ void setupIO() {
 
 // SOLUTION FUNCTION
 void solve() {
-    double v, x;
-    scanf("%lf:%lf", &v, &x);
-
-    double time = x/v;
-
-    if (time <= 1) {
-        cout << "SWERVE";
+    int n; read(n); // Read an integer
+    vpi arr(n);
+    each(x, arr) {
+      int _, _1;
+      read(_); read(_1);
+      x = mp(_, _1);
     }
-    else if (time <= 5) {
-        cout << "BRAKE";
-    }
-    else {
-        cout << "SAFE";
-    }
-    cout << "\n";
+    sort(all(arr)); // Sort the array in ascending order
+    print(arr); // Print the sorted array
 }
 
 int main() {
